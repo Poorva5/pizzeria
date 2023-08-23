@@ -1,26 +1,28 @@
 import factory
 from .models import PizzaBase, CheeseType, Toppings, Pizza, OrderPizza, Order
+from random import choice
+from utils.constants import base_choices, cheese_choices, toppings_choices
 
 
 class PizzaBaseFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = PizzaBase
 
-    name = factory.Faker("word")
+    name = factory.LazyAttribute(lambda _: choice(base_choices))
 
 
 class CheeseTypeFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = CheeseType
 
-    name = factory.Faker("word")
+    name = factory.LazyAttribute(lambda _: choice(cheese_choices))
 
 
 class ToppingsFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Toppings
 
-    name = factory.Faker("word")
+    name = factory.LazyAttribute(lambda _: choice(toppings_choices))
 
 
 class PizzaFactory(factory.django.DjangoModelFactory):
