@@ -1,6 +1,6 @@
 from django.db import models
 from utils.models import BaseModel
-from rest_framework import serializers
+from django.core.exceptions import ValidationError
 
 
 class PizzaBase(BaseModel):
@@ -43,6 +43,10 @@ class Order(BaseModel):
     def save_total_amount(self, amount):
         self.total_amount = amount
         self.save(update_fields=["total_amount", "updated_at"])
+
+    def update_order_status(self, status):
+        self.status = status
+        self.save(update_fields=["status", "updated_at"])
 
 
 class Pizza(BaseModel):

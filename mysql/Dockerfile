@@ -1,0 +1,8 @@
+FROM mysql:latest
+
+ENV MYSQL_ROOT_PASSWORD="root@123"
+ENV MYSQL_DATABASE="pizzeriadb"
+ENV MYSQL_USER="pizzeria"
+ENV MYSQL_PASSWORD="root@123"
+
+EXPOSE 3306

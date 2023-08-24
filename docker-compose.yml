@@ -1,0 +1,47 @@
+version: '3'
+services: 
+  web: 
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/pizzeria_api
+    ports: 
+      - "8000:8000"
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    build:
+      context: ./mysql
+    environment:
+      - "MYSQL_ROOT_PASSWORD=root@123"
+      - "MYSQL_DATABASE=pizzeriadb"
+      - "MYSQL_USER=pizzeria"
+      - "MYSQL_PASSWORD=root@123"
+
+  redis:
+    image: redis:alpine
+    ports:
+      - '6379:6379'
+  celery_worker:
+    build: 
+      context: .
+    restart: always
+    container_name: celery
+    command: >
+      sh -c "celery -A pizzeria worker -l DEBUG & celery -A pizzeria beat --scheduler=django_celery_beat.schedulers:DatabaseScheduler --detach"
+    volumes:
+      - .:/pizzeria_api
+    depends_on:
+      - db
+      - redis
+      - web
+
+  
+
+    
+

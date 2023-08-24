@@ -57,5 +57,3 @@ class Command(BaseCommand):
             order.total_amount += pizza_price
 
         order.save()
-
-        # self.stdout.write(self.style.SUCCESS('Auto-population completed!'))

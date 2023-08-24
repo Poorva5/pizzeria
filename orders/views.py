@@ -25,7 +25,6 @@ class CreateOrderFromPizzasView(APIView):
             order = Order.objects.create(total_amount=0)
 
             for orderpizza in orderpizza_instances:
-                # assign order to pizza instance
                 orderpizza.assign_order(order)
 
             # update total amount on order
@@ -33,13 +32,24 @@ class CreateOrderFromPizzasView(APIView):
                 orderpizza.pizza.price for orderpizza in orderpizza_instances
             )
             order.save_total_amount(total_amount)
-
             order_serializer = OrderSerializer(order).data
             return Response(order_serializer, status=status.HTTP_201_CREATED)
 
         return Response(
             orderpizza_serializer.errors, status=status.HTTP_400_BAD_REQUEST
         )
+
+
+class TrackOrderView(APIView):
+    def get(self, request, order_id):
+        try:
+            order = Order.objects.get(id=order_id)
+            order_data = OrderSerializer(order).data
+            return Response(order_data, status=status.HTTP_200_OK)
+        except Order.DoesNotExist:
+            return Response(
+                {"error": "Order not found"}, status=status.HTTP_400_BAD_REQUEST
+            )
 
 
 class PizzaBaseListView(generics.ListAPIView):
