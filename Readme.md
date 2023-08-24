@@ -52,7 +52,7 @@
 ### API Documentation
 
     The documentaion of the api can be accessed on this link
-    [API postman collection](https://documenter.getpostman.com/view/19475365/2s9Y5WxNtA)
+    API Collection - https://documenter.getpostman.com/view/19475365/2s9Y5WxNtA
 
 
 
